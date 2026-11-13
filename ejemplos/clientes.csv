@@ -1,0 +1,5 @@
+nombre;apellidos;email;telefono
+Marta;Pérez Castro;marta.pilatos@example.com;600777888
+Diego;López Vidal;diego.pilatos@example.com;600999000
+Ana;Duplicada;ana@example.com;600000000
+Error;Correo incorrecto;correo-invalido;600000001

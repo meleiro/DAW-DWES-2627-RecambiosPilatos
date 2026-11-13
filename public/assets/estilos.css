@@ -1,0 +1,269 @@
+/* Colores y variables globales del proyecto. */
+:root {
+    --ink: #142c42;
+    --brand: #006d6b;
+    --paper: #f3f6f8;
+    --line: #cad6df;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* Tipografía, color y estructura principal. */
+body {
+    margin: 0;
+    background: var(--paper);
+    font: 16px/1.55 system-ui,sans-serif;
+    color: var(--ink);
+}
+
+header {
+    background: var(--ink);
+    color: white;
+    padding: 1.4rem max(5vw,1rem);
+}
+
+header a {
+    color: white;
+}
+
+header strong {
+    font-size: 1.5rem;
+}
+
+nav {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+main {
+    max-width: 1180px;
+    margin: 2rem auto;
+    padding: 0 1.2rem;
+}
+
+h1 {
+    font-size: 2.1rem;
+    line-height: 1.2;
+}
+
+h2 {
+    font-size: 1.35rem;
+}
+
+a {
+    color: #005e65;
+}
+
+button, .boton {
+    display: inline-block;
+    background: var(--brand);
+    color: white;
+    padding: .6rem 1rem;
+    border: 0;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    font: inherit;
+}
+
+button.peligro {
+    background: #a52c36;
+}
+
+button.secundario {
+    background: #486078;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin: .7rem 0 .2rem;
+}
+
+input, select, textarea {
+    width: 100%;
+    max-width: 680px;
+    border: 1px solid #9cafbd;
+    border-radius: 4px;
+    padding: .6rem;
+    background: white;
+    font: inherit;
+}
+
+input[type=checkbox] {
+    width: auto;
+}
+
+textarea {
+    min-height: 100px;
+}
+
+form.ficha {
+    max-width: 720px;
+}
+
+/* Formularios de búsqueda: disposición flexible de los filtros. */
+form.filtros {
+    display: flex;
+    gap: .9rem;
+    align-items: end;
+    flex-wrap: wrap;
+    background: white;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+form.filtros label {
+    font-size: .85rem;
+}
+
+.campo {
+    flex: 1 1 140px;
+}
+
+.campo.ancho {
+    flex: 2 1 250px;
+}
+
+.fila {
+    display: flex;
+    gap: .8rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.fila form {
+    display: inline;
+    margin: 0;
+}
+
+/* Tablas de productos, clientes, pedidos e informes. */
+.tabla {
+    overflow-x: auto;
+    background: white;
+    border: 1px solid var(--line);
+    margin: 1rem 0;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 600px;
+}
+
+th, td {
+    text-align: left;
+    padding: .8rem;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+}
+
+th {
+    background: #e5edf1;
+}
+
+td .fila {
+    min-width: 180px;
+}
+
+/* Mensajes informativos, de error y confirmación. */
+.aviso {
+    padding: 1rem;
+    border-left: 5px solid var(--brand);
+    background: #e1f3ee;
+    margin: 1rem 0;
+}
+
+.error {
+    border-color: #a52c36;
+    background: #fce9eb;
+}
+
+.nota {
+    color: #4c6578;
+}
+
+.pasos li {
+    margin: .8rem 0;
+}
+
+.acciones {
+    margin: 1.5rem 0;
+}
+
+.paginacion {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+code {
+    background: #e2eaf0;
+    padding: .1rem .3rem;
+}
+
+footer {
+    padding: 2rem;
+    text-align: center;
+    color: #4c6578;
+}
+
+/* Accesibilidad: enlace para saltar al contenido y foco visible. */
+.salto {
+    position: absolute;
+    top: -50px;
+}
+
+.salto:focus {
+    top: 0;
+    background: white;
+    padding: .5rem;
+    z-index: 5;
+}
+
+:focus-visible {
+    outline: 3px solid #edb64b;
+    outline-offset: 3px;
+}
+
+.error li {
+    margin: .25rem;
+}
+
+details {
+    margin: 1rem 0;
+}
+
+dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: .5rem 1.5rem;
+}
+
+dt {
+    font-weight: 700;
+}
+
+/* Diseño adaptable: reglas para pantallas pequeñas. */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.7rem;
+    }
+
+    nav {
+        gap: .8rem;
+    }
+
+    dl {
+        display: block;
+    }
+
+    dd {
+        margin: 0 0 .8rem;
+    }
+
+}
