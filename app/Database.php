@@ -572,8 +572,13 @@ function bd(): PDO
 
     );
 
+    $conexion->exec("SET TIME ZONE 'UTC'");
+    $conexion->exec("SET client_encoding TO 'UTF8'");
 
-    
+
+    $pdo = $conexion;
+
+    return $pdo;
 
     // EJ01:FIN
 }
