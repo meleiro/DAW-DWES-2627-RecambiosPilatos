@@ -28,21 +28,25 @@ final class FichaRepository
      * EJ07 · Recuperar todos los registros para los desplegables HTML.
      *
      * @return array<int, array<string, mixed>> Filas en arrays asociativos.
+     * 
+     * 
+     * ['nombre', 'descripcion']
+     * "nombre, descripcion"
+     * 
      */
     public function todos(): array
     {
-        // EJ07:INICIO
+       $columnas = implode(', ', $this->columnas);
 
-        // TODO EJ07.1: Crear un SELECT con las columnas autorizadas.
-        // TODO EJ07.2: Ordenar por nombre y, para desempatar, por id.
-        // TODO EJ07.3: Ejecutar la consulta y devolver fetchAll().
-        // La tabla ya ha sido validada en el constructor.
+       $sql="SELECT id, {$columnas}
+       FROM {$this->tipo} 
+       ORDER BY nombre ASC, id ASC
+       ";
 
-        throw new Pendiente(
-            'EJ07: Consultar categorías/clientes para los desplegables con fetchAll.'
-        );
+       $sentencia = $this->pdo->query($sql);
 
-        // EJ07:FIN
+       return $sentencia->fetchAll();
+
     }
 
     /**
