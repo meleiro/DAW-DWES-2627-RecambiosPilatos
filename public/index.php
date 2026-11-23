@@ -400,12 +400,14 @@ try {
     }
 } catch (Pendiente $e) {
     // Los ejercicios sin resolver muestran una pantalla informativa.
+    error_log((string) $e);
     http_response_code(501);
     vista('error', [
         'titulo' => 'Actividad por completar',
         'mensaje' => $e->getMessage(),
     ]);
 } catch (ErrorHttp $e) {
+    error_log((string) $e);
     // Por ejemplo: 404 no encontrado, 403 CSRF o 405 método incorrecto.
     http_response_code($e->estado);
     vista('error', [
@@ -413,18 +415,21 @@ try {
         'mensaje' => $e->getMessage(),
     ]);
 } catch (ErrorValidacion $e) {
+    error_log((string) $e);
     http_response_code(422);
     vista('error', [
         'titulo' => 'Revisa los datos',
         'mensaje' => implode(' ', $e->errores),
     ]);
 } catch (InvalidArgumentException $e) {
+    error_log((string) $e);
     http_response_code(400);
     vista('error', [
         'titulo' => 'Petición no válida',
         'mensaje' => 'Entidad no permitida.',
     ]);
 } catch (PDOException $e) {
+    error_log((string) $e);
     // SQLSTATE de PostgreSQL: 23505 UNIQUE, 23503 FK, 23514 CHECK.
     error_log('Recambios Pilatos SQLSTATE=' . $e->getCode());
     $estado = in_array((string) $e->getCode(), ['23505', '23503', '23514'], true)
@@ -437,6 +442,7 @@ try {
         'mensaje' => mensajeBD($e),
     ]);
 } catch (Throwable $e) {
+    error_log((string) $e);
     // No revelar consultas, credenciales, rutas internas ni datos personales.
     error_log('Recambios Pilatos: ' . get_class($e) . ': ' . $e->getMessage());
     http_response_code(500);

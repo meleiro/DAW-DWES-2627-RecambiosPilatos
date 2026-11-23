@@ -22,19 +22,54 @@ final class ProductoRepository
      */
     private function condiciones(array $f): array
     {
-        // EJ02:INICIO
+    
+        $condiciones=[];
 
-        // TODO EJ02.1: Preparar arrays de condiciones y parámetros.
-        // TODO EJ02.2: Búsqueda por nombre/referencia usando ILIKE.
-        // TODO EJ02.3: Añadir categoría, precio mínimo, máximo y estado.
-        // TODO EJ02.4: Combinar condiciones con AND y devolver ambos datos.
-        // Dos marcadores diferentes para nombre y referencia evitan ambigüedades.
+        $parametros=[];
 
-        throw new Pendiente(
-            'EJ02: Construir condiciones WHERE y parámetros para filtros.'
-        );
+        if ($f['q'] !== ''){
 
-        // EJ02:FIN
+        $texto= str_replace(
+           ['!', '%', '_'],
+           ['!!', '!%', '!_'],
+           $f['q']);
+       
+
+        $patron = '%'. $texto . '%';
+
+        $condiciones[]= 
+           "(p.nombre ILIKE :q_nombre ESCAPE '!'
+             OR p.referencia ILIKE :q_referencia ESCAPE '!') ";
+
+        $parametros['q_nombre'] = $patron;
+        $parametros['q_referencia'] = $patron;   
+        }  
+
+        if ($f['categoria'] !== ''){
+            $condiciones[] = "p.categoria_id = :categoria ";
+
+            $parametros['categoria'] = $f['categoria'];
+
+        }
+
+        if($f['max'] !== ''){
+            $condiciones[] = 'p.precio <= :max';
+
+            $parametros['max'] = $f['max'];
+        }
+
+         if($f['min'] !== ''){
+            $condiciones[] = 'p.precio >= :in';
+
+            $parametros['min'] = $f['min'];
+        }
+
+        $where = $condiciones ? 'WHERE ' . implode(' AND ', $condiciones) : '';
+
+
+
+
+
     }
 
     /**

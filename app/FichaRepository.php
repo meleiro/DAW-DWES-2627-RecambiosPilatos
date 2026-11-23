@@ -50,6 +50,22 @@ final class FichaRepository
     }
 
     /**
+     * [
+     * 
+     *   [
+     *          'id'=> 1,
+     *          'nombre' => 'Frenos',
+     *          'descripcion' => 'disbuidisuduisbdiusbuibsiudbisu'
+     * 
+     * ],
+     * []
+     * 
+     * 
+     * ]
+     * 
+     * 
+     * 
+     * 
      * Listado paginado de categorías o clientes.
      * Este método ya está resuelto para mostrar un ejemplo de SELECT y OFFSET.
      */
