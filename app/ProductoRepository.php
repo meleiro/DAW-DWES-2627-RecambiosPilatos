@@ -59,7 +59,7 @@ final class ProductoRepository
         }
 
          if($f['min'] !== ''){
-            $condiciones[] = 'p.precio >= :in';
+            $condiciones[] = 'p.precio >= :min';
 
             $parametros['min'] = $f['min'];
         }
