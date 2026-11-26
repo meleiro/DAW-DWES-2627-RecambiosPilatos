@@ -20,7 +20,7 @@ final class ProductoRepository
      * @param array $f Filtros previamente validados.
      * @return array Fragmento WHERE y parámetros asociados.
      */
-    private function condiciones(array $f): array
+    public function condiciones(array $f): array
     {
     
         $condiciones=[];
@@ -63,12 +63,17 @@ final class ProductoRepository
 
             $parametros['min'] = $f['min'];
         }
+        
+        if ($f['activo'] !== ''){
+            $condiciones[] = 'p.activo = :activo';
+
+            $parametros['activo'] = $f['activo'] === '1' ? 'true' : 'false';
+        }
+
 
         $where = $condiciones ? 'WHERE ' . implode(' AND ', $condiciones) : '';
 
-
-
-
+        return [$where, $parametros];
 
     }
 
@@ -78,20 +83,21 @@ final class ProductoRepository
      */
     public function listar(array $f, int $tam = 5): array
     {
-        // EJ03:INICIO
+      [$where, $parametros] = $this->condiciones($f);
 
-        // TODO EJ03.1: Obtener WHERE y parámetros de condiciones().
-        // TODO EJ03.2: Calcular total con COUNT(*) y fetchColumn().
-        // TODO EJ03.3: Calcular LIMIT/OFFSET y páginas.
-        // TODO EJ03.4: JOIN con categorias y ordenación por lista blanca.
-        // TODO EJ03.5: Devolver las filas con fetchAll().
-        // Evitar SELECT * y mantener un ORDER BY estable.
+      $st = $this->pdo->prepare('SELECT COUNT(*) FROM productos p' . $where);
+      $st->execute($parametros);
+      $total = (int)$st->fetchColumn();
 
-        throw new Pendiente(
-            'EJ03: Hacer COUNT, JOIN, lista blanca de ordenación y paginación.'
-        );
+      $paginas = max(1,(int)ceil($total / $tam));
+      $pagina = min($f['pagina'], $paginas);  
+      
 
-        // EJ03:FIN
+
+      
+
+
+       
     }
 
     /** EJ04 · Recuperar un producto por su identificador o devolver null. */
