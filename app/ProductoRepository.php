@@ -134,8 +134,43 @@ public function listar(array $f, int $tam = 5): array
         'referencia' => 'p.referencia'
     ];
 
+    $col = $columnas[$f['orden']] ?? 'p.nombre';
 
-    // EJ03:FIN
+    $dir = $f['dir'] === 'desc' ? 'DESC' : 'ASC';
+
+    $st = $this->pdo->prepare(
+        "SELECT p.id, p.referencia, p.nombre, p.precio, p.stock,
+          p.activo, c.nombre AS categoria
+         FROM productos p
+         JOIN categorias c ON c.id = p.categoria_id 
+         $where
+         ORDER BY $col $dir, p.id ASC   
+         LIMIT :lim OFFSET :off        
+        "
+    );
+
+
+    foreach ($parametros as $k => $v) {
+        $tipo = is_int($v)
+                ? PDO::PARAM_INT
+                : PDO::PARAM_STR;
+
+        $st->bindValue(":$k", $v, $tipo);        
+    }
+
+    $st->bindValue(":lim", $tam, PDO::PARAM_INT);  
+
+    $st->bindValue(":off", $offset, PDO::PARAM_INT);  
+
+    $st->execute();
+
+    return [
+        'filas' => $st->fetchAll(),
+        'total' => $total,
+        'pagina' => $pagina,
+        'paginas' =>$paginas,
+    ];
+   
 }
 
 
