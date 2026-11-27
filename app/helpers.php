@@ -175,9 +175,12 @@ function exigirPost(): void
  * Pasar datos a una vista sin mezclar SQL con el HTML.
  * extract() convierte las claves del array en variables locales de la vista.
  */
-function vista(string $archivo, array $datos = []): void
+function vista(string $archivo, array $variablesVista = []): void
 {
-    extract($datos, EXTR_SKIP);
+    // Convierte las claves del array en variables locales.
+    extract($variablesVista, EXTR_SKIP);
+
+    // Carga la plantilla principal de la aplicación.
     require dirname(__DIR__) . '/views/layout.php';
 }
 

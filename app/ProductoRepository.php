@@ -81,22 +81,63 @@ final class ProductoRepository
      * EJ03 · Listar productos con JOIN, orden y paginación.
      * La vista espera: filas, total, pagina y paginas.
      */
-   public function listar(array $f, int $tam = 5): array
+   
+public function listar(array $f, int $tam = 5): array
 {
+    // EJ03:INICIO
+
+    // Comprobar que el tamaño de página sea válido.
+    if ($tam < 1) {
+        throw new InvalidArgumentException(
+            'El tamaño de página debe ser positivo.'
+        );
+    }
+
+    // 1. OBTENER LAS CONDICIONES Y LOS PARÁMETROS
+
     [$where, $parametros] = $this->condiciones($f);
 
+
+    // 2. CONTAR LOS PRODUCTOS
+
+    // Preparar la consulta de recuento.
     $st = $this->pdo->prepare(
         'SELECT COUNT(*) FROM productos p ' . $where
     );
 
+    // Ejecutar la consulta con los filtros.
     $st->execute($parametros);
 
+    // Recuperar el número total de productos.
     $total = (int) $st->fetchColumn();
 
+
+    // 3. CALCULAR LA PAGINACIÓN
+
+    // Número total de páginas.
     $paginas = max(1, (int) ceil($total / $tam));
 
-    $pagina = min($f['pagina'], $paginas);
+    // Ajustar la página solicitada.
+    $pagina = max(1, min($f['pagina'], $paginas));
+
+    // Número de registros que debemos saltar.
+    $offset = ($pagina - 1) * $tam;
+
+
+    // 4. PREPARAR LA ORDENACIÓN
+
+    // Lista  de columnas permitidas.
+    $columnas = [
+        'nombre' => 'p.nombre',
+        'precio' => 'p.precio',
+        'stock' => 'p.stock',
+        'referencia' => 'p.referencia'
+    ];
+
+
+    // EJ03:FIN
 }
+
 
     /** EJ04 · Recuperar un producto por su identificador o devolver null. */
     public function buscar(int $id): ?array
