@@ -81,24 +81,22 @@ final class ProductoRepository
      * EJ03 · Listar productos con JOIN, orden y paginación.
      * La vista espera: filas, total, pagina y paginas.
      */
-    public function listar(array $f, int $tam = 5): array
-    {
-      [$where, $parametros] = $this->condiciones($f);
+   public function listar(array $f, int $tam = 5): array
+{
+    [$where, $parametros] = $this->condiciones($f);
 
-      $st = $this->pdo->prepare('SELECT COUNT(*) FROM productos p' . $where);
-      $st->execute($parametros);
-      $total = (int)$st->fetchColumn();
+    $st = $this->pdo->prepare(
+        'SELECT COUNT(*) FROM productos p' . $where
+    );
 
-      $paginas = max(1,(int)ceil($total / $tam));
-      $pagina = min($f['pagina'], $paginas);  
-      
+    $st->execute($parametros);
 
+    $total = (int) $st->fetchColumn();
 
-      
+    $paginas = max(1, (int) ceil($total / $tam));
 
-
-       
-    }
+    $pagina = min($f['pagina'], $paginas);
+}
 
     /** EJ04 · Recuperar un producto por su identificador o devolver null. */
     public function buscar(int $id): ?array
