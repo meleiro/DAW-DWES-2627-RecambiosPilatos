@@ -86,7 +86,7 @@ final class ProductoRepository
     [$where, $parametros] = $this->condiciones($f);
 
     $st = $this->pdo->prepare(
-        'SELECT COUNT(*) FROM productos p' . $where
+        'SELECT COUNT(*) FROM productos p ' . $where
     );
 
     $st->execute($parametros);
